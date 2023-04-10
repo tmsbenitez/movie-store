@@ -530,7 +530,7 @@ export const movies = [
     release: '13/12/2019',
     duration: 136,
     overview:
-      "A charismatic New York City jeweler always on the lookout for the next big score makes a series of high-stakes bets that could lead to the windfall of a lifetime. Howard must perform a precarious high-wire act, balancing business, family, and encroaching adversaries on all sides in his relentless pursuit of the ultimate win.",
+      'A charismatic New York City jeweler always on the lookout for the next big score makes a series of high-stakes bets that could lead to the windfall of a lifetime. Howard must perform a precarious high-wire act, balancing business, family, and encroaching adversaries on all sides in his relentless pursuit of the ultimate win.',
     images: [
       'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6XN1vxHc7kUSqNWtaQKN45J5x2v.jpg'
     ],
@@ -560,7 +560,7 @@ export const movies = [
     release: '17/07/2003',
     duration: 125,
     overview:
-      "A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.",
+      'A young girl, Chihiro, becomes trapped in a strange new world of spirits. When her parents undergo a mysterious transformation, she must call upon the courage she never knew she had to free her family.',
     images: [
       'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg'
     ],
@@ -612,5 +612,5 @@ export const movies = [
     userScore: 78,
     trailer: 'https://www.youtube.com/watch?v=NgsQ8mVkN8w',
     price: 7
-  },
+  }
 ]
