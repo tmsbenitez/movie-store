@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from './Components/Header'
 import { getAllMovies } from './database/client'
+import Carousel from './Components/Carousel'
+import './css/App.css'
+import { Routes, Route } from 'react-router-dom'
 
 function App () {
   const [movies, setMovies] = useState([]) // Array with all movies
@@ -12,12 +15,17 @@ function App () {
       .catch(error => console.error(error))
   }, [])
 
-  console.log(movies) // Remove this line when using the movies in any component
-
   return (
+
     <div className='App'>
-      <Header />
+
+      <Routes>
+        <Route path='/' element={<Header movies={movies} />} />
+        <Route path='/' element={<Carousel movies={movies} />} />
+      </Routes>
+
     </div>
+
   )
 }
 

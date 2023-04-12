@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import React from 'react'
 import movieLogo from '../assets/movie-logo.avif'
-import heart from '../assets/heart-logo.png'
-import person from '../assets/person-logo.png'
+import { AiOutlineHeart, AiOutlineUser } from 'react-icons/ai'
+import SearchBar from './SearchBar'
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -18,11 +18,6 @@ const Logo = styled.img`
   margin-right: 10px;
 `
 
-const Icon = styled.img`
-  height: 35px;
-  background: white;
-`
-
 const LeftContainer = styled.div`
   display: flex;
   align-items: center;
@@ -33,17 +28,9 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0px;
-  width: 30%;
+  width: 40%;
+  height: 100%;
   
-  select {
-    
-    border: none;
-    padding: 5px 10px;
-    background-color: #f2f2f2;
-    height: 30px;
-    width: fit-content;
-    
-  }
   input {
     border: 1px solid black;
     border-right:none;
@@ -51,7 +38,7 @@ const SearchContainer = styled.div`
     padding: 0;
     background-color: #f2f2f2;
     flex: 1;
-    height: 30px;
+    height: auto;
   }
   button {
     
@@ -61,8 +48,8 @@ const SearchContainer = styled.div`
     color: white;
     font-weight: bold;
     cursor: pointer;
-    height: 30px;
-    margin-left: 10px;
+    height: auto;
+    
   }
 `
 
@@ -106,7 +93,9 @@ const SignupContainer = styled.div`
   margin-right: 40px;
   font-size: 12px; /* Añade esta propiedad */
 `
-export const Header = () => {
+export const Header = ({ movies }) => {
+  const allGenres = movies.flatMap(movie => movie.genre)
+  const uniqueGenres = Array.from(new Set(allGenres))
   return (
     <HeaderWrapper>
       <LeftContainer>
@@ -114,9 +103,13 @@ export const Header = () => {
         <Link href='#'>
           Peliculas
           <LinksContainer>
-            <div>Item 1</div>
-            <div>Item 2</div>
-            <div>Item 3</div>
+            <option value='all' defaultValue>All Categories</option>
+            {uniqueGenres.map(genre => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+
           </LinksContainer>
         </Link>
         <Link href='#'>
@@ -136,25 +129,18 @@ export const Header = () => {
           </LinksContainer>
         </Link>
       </LeftContainer>
+
       <SearchContainer>
-        <input type='text' placeholder='Busca tu pelicula' />
-        <select name='category'>
-          <option value='all' defaultValue>All Categories</option>
-          <option value='action'>Action</option>
-          <option value='romance'>Romance</option>
-          <option value='drama'>Drama</option>
-        </select>
-        <button>Buscar</button>
+        <SearchBar movies={movies} placeholder='Enter a movie name' uniqueGenres={uniqueGenres} allGenres={allGenres} />
       </SearchContainer>
 
       <RightContainer>
-        <Icon src={person} alt='person' />
+        <AiOutlineUser style={{ width: '25px', height: '25px' }} />
         <SignupContainer>
           <span>Sign up</span>
           <span>Account</span>
         </SignupContainer>
-
-        <Icon src={heart} alt='wishlist' />
+        <AiOutlineHeart style={{ width: '25px', height: '25px' }} />
       </RightContainer>
     </HeaderWrapper>
   )
