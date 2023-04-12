@@ -16,16 +16,11 @@ function App () {
   }, [])
 
   return (
-
     <div className='App'>
-
       <Routes>
-        <Route path='/' element={<Header movies={movies} />} />
-        <Route path='/' element={<Carousel movies={movies} />} />
+        <Route path='/' element={<><Header movies={movies} /> <Carousel movies={movies} /></>} />
       </Routes>
-
     </div>
-
   )
 }
 

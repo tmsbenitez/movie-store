@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function CarouselItem ({ movieOverwiew, movieImage }) {
+  console.log(movieImage)
   return (
     <div className='carousel-item'>
       <div />
