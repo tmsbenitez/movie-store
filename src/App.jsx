@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Header } from './Components/Header'
-import { getAllMovies } from './database/client'
+import Login from './pages/Login'
+import useGetMovies from './hooks/useGetMovies'
 import Carousel from './Components/Carousel'
 import './css/App.css'
 import { Routes, Route } from 'react-router-dom'
 
 function App () {
-  const [movies, setMovies] = useState([]) // Array with all movies
-
-  useEffect(() => {
-    // Gets all the movies from the database and adds them to the state
-    getAllMovies()
-      .then(res => setMovies(res.data))
-      .catch(error => console.error(error))
-  }, [])
+  const movies = useGetMovies()
 
   return (
     <div className='App'>
       <Routes>
         <Route path='/' element={<><Header movies={movies} /> <Carousel movies={movies} /></>} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </div>
   )
