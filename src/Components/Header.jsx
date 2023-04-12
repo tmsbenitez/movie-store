@@ -1,129 +1,146 @@
 import styled from 'styled-components'
 import React from 'react'
 import movieLogo from '../assets/movie-logo.avif'
-import heart from '../assets/heart-logo.png'
+import { AiOutlineHeart, AiOutlineUser } from 'react-icons/ai'
+import SearchBar from './SearchBar'
 
 const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
+  padding-left: 6rem;
+  padding-right: 6rem;
 `
 
 const Logo = styled.img`
-  height: 40px;
+  height: 90px;
   margin-right: 10px;
+`
+
+const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
 `
 
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0px;
+  width: 40%;
+  height: 100%;
+  
   input {
-    border: none;
-    padding: 5px 10px;
-    border-radius: 20px;
+    border: 1px solid black;
+    border-right:none;
+    text-align: center;
+    padding: 0;
     background-color: #f2f2f2;
+    flex: 1;
+    height: auto;
   }
   button {
+    
     border: none;
     padding: 5px 10px;
-    border-radius: 20px;
     background-color: #4caf50;
     color: white;
     font-weight: bold;
     cursor: pointer;
+    height: auto;
+    
   }
 `
 
 const RightContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-`
+  gap: 0;
+  margin-right: 10px;
 
-const Icon = styled.img`
-  height: 30px;
-`
-
-const LeftContainer = styled.div`
-  width: 20%;
-  flex-direction: column;
-  height: 100%;
-  gap: 0px;
-  margin: 0;
-  padding: 0;
 `
 
 const LinksContainer = styled.div`
-  position: absolute;
-  top: 60px;
-  left: 0;
   display: none;
-  background-color: #fff;
+  position: absolute;
+  top: 100%;
+  left: 11%;
+  background-color: white;
+  border: 1px solid black;
   padding: 10px;
-  border-radius: 5px;
+  z-index: 1;
 `
 
-const LinkWrapper = styled.div`
+const Link = styled.a`
   position: relative;
-
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  
+  
   &:hover ${LinksContainer} {
     display: block;
+    width: 80px;
   }
 `
 
-const Links = styled.div`
+const SignupContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  position: relative;
-
-  a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-  }
+  align-items: center;
+  gap: 0;
+  margin-right: 40px;
+  font-size: 12px; /* Añade esta propiedad */
 `
-
-export const Header = () => {
+export const Header = ({ movies }) => {
+  const allGenres = movies.flatMap(movie => movie.genre)
+  const uniqueGenres = Array.from(new Set(allGenres))
   return (
     <HeaderWrapper>
       <LeftContainer>
         <Logo src={movieLogo} alt='logo' />
-        <LinkWrapper>
-          <Links>
-            <a href='#'>Peliculas</a>
-            <LinksContainer>
-              <a href='#'>Popular</a>
-              <a href='#'>Proximamente</a>
-              <a href='#'>Mejor valoradas</a>
-            </LinksContainer>
-          </Links>
-          <Links>
-            <a href='#'>Series</a>
-            <LinksContainer>
-              <a href='#'>Nuevas</a>
-              <a href='#'>Mejor valoradas</a>
-              <a href='#'>Finalizadas</a>
-            </LinksContainer>
-          </Links>
-          <Links>
-            <a href='#'>Novedades</a>
-            <LinksContainer>
-              <a href='#'>Peliculas</a>
-              <a href='#'>Series</a>
-              <a href='#'>Documentales</a>
-            </LinksContainer>
-          </Links>
-        </LinkWrapper>
+        <Link href='#'>
+          Peliculas
+          <LinksContainer>
+            <option value='all' defaultValue>All Categories</option>
+            {uniqueGenres.map(genre => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+
+          </LinksContainer>
+        </Link>
+        <Link href='#'>
+          Series
+          <LinksContainer>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+          </LinksContainer>
+        </Link>
+        <Link href='#'>
+          Novedades
+          <LinksContainer>
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+          </LinksContainer>
+        </Link>
       </LeftContainer>
+
       <SearchContainer>
-        <input type='text' placeholder='Busca tu pelicula' />
-        <button>Buscar</button>
+        <SearchBar movies={movies} placeholder='Enter a movie name' uniqueGenres={uniqueGenres} allGenres={allGenres} />
       </SearchContainer>
+
       <RightContainer>
-        <Icon src={heart} alt='wishlist' />
+        <AiOutlineUser style={{ width: '25px', height: '25px' }} />
+        <SignupContainer>
+          <span>Sign up</span>
+          <span>Account</span>
+        </SignupContainer>
+        <AiOutlineHeart style={{ width: '25px', height: '25px' }} />
       </RightContainer>
     </HeaderWrapper>
   )
