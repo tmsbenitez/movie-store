@@ -3,7 +3,6 @@ import { Header } from './Components/Header'
 import Login from './pages/Login'
 import useGetMovies from './hooks/useGetMovies'
 import Carousel from './Components/Carousel'
-import './css/App.css'
 import { Routes, Route } from 'react-router-dom'
 
 function App () {
