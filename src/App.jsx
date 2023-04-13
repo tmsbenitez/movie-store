@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Header } from './Components/Header'
 import { getAllMovies } from './database/client'
 import Carousel from './Components/Carousel'
-import './css/App.css'
 import { Routes, Route } from 'react-router-dom'
 
 function App () {
