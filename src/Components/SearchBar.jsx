@@ -46,19 +46,20 @@ function SearchBar ({ placeholder, uniqueGenres, allGenres, movies }) {
           type='text'
           placeholder={placeholder}
           onChange={handleFilter}
+          onInput={handleFilter}
           value={searchWord}
           className='border border-solid border-r-0 align-center bg-#f2f2f2 flex-1 h-auto'
         />
-        {filteredMovies.length !== 0 && (
-          <div className='absolute w-full  top-10 h-[200px] bg-white shadow-xl  overflow-y-auto'>
-            {filteredMovies.slice(0, 15).map((movie, key) => {
+        {searchWord.length !== 0 && (
+          <div className='absolute w-full  top-10 h-auto bg-white shadow-xl z-10'>
+            {filteredMovies.slice(0, 5).map((movie, key) => {
               return (
                 <button
                   key={key}
                   onClick={() => {
                     handleMovieSelect(movie)
                   }}
-                  className=' flex w-full h-auto align-center text-color-black p-2 hover:bg-gray-200'
+                  className=' flex w-full h-auto align-center text-color-black p-2 hover:bg-gray-200 '
                 >
                   {movie.name}
                 </button>

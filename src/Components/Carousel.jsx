@@ -1,48 +1,39 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import CarouselItem from './CarouselItem'
 import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md'
-import { FaDotCircle } from 'react-icons/fa'
 
-function MovieCarousel ({ movies }) {
-  const [index, setIndex] = useState(0)
+export default function Carousel ({ movies }) {
+  const carousel = useRef(null)
 
-  const updateIndex = (index) => {
-    if (index < 0) {
-      index = 0
-    } else if (index >= movies.length) {
-      index = movies.length - 1
-    }
-    setIndex(index)
+  const handleLeftClick = (e) => {
+    e.preventDefault()
+    carousel.current.scrollLeft -= carousel.current.offsetWidth
+  }
+
+  const handleRightClick = (e) => {
+    e.preventDefault()
+    carousel.current.scrollLeft += carousel.current.offsetWidth
   }
 
   return (
-    <div className='relative h-[700px] overflow-hiden '>
-      <div className='absolute flex h-full delay-300 ' style={{ transform: `translate(-${index}%)` }}>
-        {movies.map((movies, i) => {
+    <div className='m-w-[75vw] '>
+      <div className='flex overflow-x-auto scroll-smooth -webkit-scrollbar-none' ref={carousel}>
+        {movies.map((movies) => {
           const movieOverwiew = movies.overview
           const movieImage = movies.images
-          return <CarouselItem movieOverwiew={movieOverwiew} movieImage={movieImage} />
-        })}
-      </div>
-      <div className='carousel-buttons'>
-        <button className='button-arrow' onClick={() => { updateIndex(index - 10) }}>
-          <MdArrowBackIosNew />
-        </button>
-
-        {movies.map((movies, index) => {
           return (
-            <button onClick={() => { updateIndex(index) }} className='indicator-buttons'>
-              <FaDotCircle />
-            </button>
+            <CarouselItem key={movies.id} movieOverwiew={movieOverwiew} movieImage={movieImage} />
           )
         })}
-
-        <button className='button-arrow' onClick={() => { updateIndex(index + 10) }}>
+      </div>
+      <div className='bg-transparent border-none cursor-pointer w-full text-center'>
+        <button onClick={handleLeftClick}>
+          <MdArrowBackIosNew />
+        </button>
+        <button onClick={handleRightClick}>
           <MdArrowForwardIos />
         </button>
       </div>
     </div>
   )
 }
-
-export default MovieCarousel
