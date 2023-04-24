@@ -1,73 +1,83 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+/* eslint-disable react/jsx-closing-tag-location */
+import React, { useState, useRef } from 'react'
+import { useNavigate } from 'react-router'
 
-function SearchBar ({ placeholder, uniqueGenres, allGenres, movies }) {
+function SearchBar ({ movies }) {
+  const [isSelected, setIsSelected] = useState(false)
+  const [search, setSearch] = useState('')
   const [filteredMovies, setFilteredMovies] = useState([])
-  const [searchWord, setSearchWord] = useState('')
+  const wrapperRef = useRef(false)
   const navigate = useNavigate()
 
-  const handleFilter = (event) => {
-    setSearchWord(event.target.value)
-    const newFilter = movies.filter((movie) => {
-      return movie.name.toLowerCase().includes(searchWord.toLowerCase())
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    if (search !== '') {
+      const { id } = movies.find(({ name }) => name === search)
+      navigate(`/movies/${id}`)
+    }
+  }
+
+  const handleChange = (event) => {
+    setSearch(event.target.value)
+    const filter = movies.filter(({ name }) => {
+      return name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1
     })
-
-    if (searchWord === '') {
-      setFilteredMovies([])
-    } else {
-      setFilteredMovies(newFilter)
-    }
-    console.log(searchWord)
+    setFilteredMovies(filter)
   }
 
-  const handleMovieSelect = (movies) => {
-    setSearchWord(movies.name)
+  const mapCondition = (condition = filteredMovies.length !== 0) => {
+    return condition ? filteredMovies : movies
   }
 
-  const handleSearch = () => {
-    const selectedMovie = movies.find(movie => movie.name === searchWord)
-
-    if (selectedMovie) {
-      navigate(`/movie/${selectedMovie.id}`)
+  const clickAwayListener = (ref) => {
+    const handleClickAway = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setIsSelected(false)
+      }
     }
+    document.addEventListener('mouseup', handleClickAway)
   }
 
-  useEffect(() => {
-    const handleOutsideClick = () => {
-      setFilteredMovies([])
-    }
-    window.addEventListener('click', handleOutsideClick)
-  }, [])
+  clickAwayListener(wrapperRef)
 
   return (
-    <div className='w-full'>
-      <div className='flex relative '>
+    <div className='flex w-full z-20' ref={wrapperRef}>
+      <div className='relative flex w-full'>
         <input
           type='text'
-          placeholder={placeholder}
-          onChange={handleFilter}
-          value={searchWord}
-          className='border border-solid border-r-0 align-center bg-#f2f2f2 flex-1 h-auto'
+          placeholder='Enter a movie name'
+          className='border p-2 rounded-l align-center flex-1 h-auto focus:outline-0 focus:border-black duration-200'
+          value={search}
+          onChange={handleChange}
+          onSelect={() => setIsSelected(true)}
         />
-        {filteredMovies.length !== 0 && (
-          <div className='absolute w-full  top-10 h-[200px] bg-white shadow-xl  overflow-y-auto'>
-            {filteredMovies.slice(0, 15).map((movie, key) => {
-              return (
+        {isSelected
+          ? <div className='absolute w-full  top-10 h-fit max-h-72 bg-white border rounded-b overflow-y-auto'>
+            {mapCondition().map((movie, index) =>
+              (
                 <button
-                  key={key}
+                  key={index}
+                  className='flex w-full h-auto p-2 align-center text-color-black hover:bg-black/10'
                   onClick={() => {
-                    handleMovieSelect(movie)
+                    setSearch(movie.name)
+                    setIsSelected(false)
                   }}
-                  className=' flex w-full h-auto align-center text-color-black p-2 hover:bg-gray-200'
                 >
                   {movie.name}
                 </button>
               )
-            })}
+            )}
           </div>
-        )}
-        <button onClick={handleSearch} className='border-none p-2 bg-lime-600 text-white font-bold cursor-pointer h-auto'>Buscar</button>
+          : null}
       </div>
+      <button
+        type='submit'
+        className='px-4 py-2 font-medium text-white duration-200 bg-black rounded-r cursor-pointer hover:bg-black/80'
+        onClick={handleSubmit}
+      >
+        Search
+      </button>
     </div>
   )
 }

@@ -1,17 +1,13 @@
 import React from 'react'
-import { Header } from './Components/Header'
 import Login from './pages/Login'
-import useGetMovies from './hooks/useGetMovies'
-import Carousel from './Components/Carousel'
 import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 
 function App () {
-  const movies = useGetMovies()
-
   return (
     <div className='App'>
       <Routes>
-        <Route path='/' element={<><Header movies={movies} /> <Carousel movies={movies} /></>} />
+        <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
       </Routes>
     </div>
